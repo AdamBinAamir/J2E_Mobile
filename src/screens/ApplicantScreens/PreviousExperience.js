@@ -27,7 +27,7 @@ const PreviousExperience = ({navigation}) => {
     };
     try {
       // await dispatch(FetchData.Experience(body));
-      navigation.navigate('Previous Skills');
+      navigation.navigate('PreviousSkills');
     } catch (error) {
       ToastAndroid.show('Something has wrong', ToastAndroid.SHORT);
     }

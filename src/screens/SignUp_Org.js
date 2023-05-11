@@ -35,6 +35,7 @@ const SignUp_Org = ({navigation}) => {
       await dispatch(FetchData.Org_Signup(body));
     } catch (error) {
       console.log('ERRRRR', error);
+      console.log(body);
       ToastAndroid.show('InValid Credentials', ToastAndroid.SHORT);
     }
     setLoading(false);

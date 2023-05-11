@@ -7,7 +7,7 @@ import {
   Pressable,
   TextInput,
   ScrollView,
-  ToastAndroid,
+  ToastAndroid,AsyncStorage
 } from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -32,7 +32,7 @@ const GeneralDetails = ({navigation}) => {
     };
     try {
       // await dispatch(FetchData.profile(body));
-      navigation.navigate('Previous Experience');
+      navigation.navigate('PreviousExperience');
     } catch (error) {
       ToastAndroid.show('Something has wrong', ToastAndroid.SHORT);
     }
@@ -88,7 +88,9 @@ const GeneralDetails = ({navigation}) => {
     console.log(JSON.stringify(data));
 
     try {
-      await fetch('https://7daf-119-73-124-179.ap.ngrok.io/upload', {
+      const id = await AsyncStorage.getItem('id');
+    console.log('id',id);
+      await fetch(`https://e36f-206-84-141-75.ngrok-free.app/upload?user_id=${id}`, {
         method: 'post',
         body: data,
         headers: {
@@ -96,7 +98,7 @@ const GeneralDetails = ({navigation}) => {
         },
       });
       ToastAndroid.show('Upload Successfully', ToastAndroid.SHORT);
-      navigation.navigate('Applicant Bottom Tab', {navigatedFrom: 'applicant'});
+      navigation.navigate('App_Verify');
     } catch (error) {
       console.log(error);
     }

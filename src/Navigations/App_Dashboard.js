@@ -1,36 +1,36 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import PostJob from '../screens/PostJob';
-import OurJobs from '../screens/OurJobs';
 import MessageStackNavigator from './MessageStackNavigator';
-import OrganizationSettingNavigator from './OrganizationSettingNavigator';
+import FindJobs from '../screens/FindJobs';
+import MyJobs from '../screens/MyJobs';
+import ApplicantSettingNavigator from './ApplicantSettingNavigator';
 
 const Tab = createBottomTabNavigator();
 
-export default function Org_Dashboard() {
+export default function App_Dashboard() {
   return (
     <Tab.Navigator
-      initialRouteName="PostJob"
+      initialRouteName="FindJobs"
       screenOptions={{
         activeTintColor: '#e91e63',
       }}
     >
       <Tab.Screen
-        name="PostJob"
-        component={PostJob}
+        name="FindJobs"
+        component={FindJobs}
         options={{headerShown: false,
-          tabBarLabel: 'Post Job',
+          tabBarLabel: 'Find Jobs',
           tabBarIcon: ({ color, size }) => (
             <Icon name={'home'} color={color} size={size} />
           ),
         }}
       />
        <Tab.Screen
-        name="OurJobs"
-        component={OurJobs}
+        name="MyJobs"
+        component={MyJobs}
         options={{headerShown: false,
-          tabBarLabel: 'Our Jobs',
+          tabBarLabel: 'My Jobs',
           tabBarIcon: ({ color, size }) => (
             <Icon name={'tasks'} color={color} size={size} />
           ),
@@ -47,8 +47,8 @@ export default function Org_Dashboard() {
         }}
       />
       <Tab.Screen
-        name="OrganizationSettingNavigator"
-        component={OrganizationSettingNavigator}
+        name="ApplicantSettingNavigator"
+        component={ApplicantSettingNavigator}
         options={{headerShown: false,
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (

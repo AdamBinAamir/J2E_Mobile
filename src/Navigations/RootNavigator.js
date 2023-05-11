@@ -21,7 +21,7 @@ import RequiredSkills from '../screens/RequiredSkills';
 import Setting from '../screens/Setting';
 import GeneralDetails from '../screens/ApplicantScreens/GeneralDetails';
 import PreviousExperience from '../screens/ApplicantScreens/PreviousExperience';
-import PreviousSkill from '../screens/ApplicantScreens/PreviousSkills';
+import PreviousSkills from '../screens/ApplicantScreens/PreviousSkills';
 import OrganizationDetail from '../screens/OrganizationScreens/OrganizationDetails';
 import Applicant from '../screens/userScreens/Applicant';
 import Organization from '../screens/userScreens/Organization';
@@ -30,6 +30,8 @@ import MessageStackNavigator from './MessageStackNavigator';
 import OrganizationSettingNavigator from './OrganizationSettingNavigator';
 import ApplicantSettingNavigator from './ApplicantSettingNavigator';
 import Org_Dashboard from './Org_Dashboard';
+import App_Dashboard from './App_Dashboard';
+import App_Verify from '../screens/App_Verify';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,7 +59,7 @@ const RootNavigator = () => {
         <Stack.Screen name="Setting" component={Setting} options={{ title: 'Setting' }} />
         <Stack.Screen name="GeneralDetails" component={GeneralDetails} options={{ title: 'GeneralDetails' }} />
         <Stack.Screen name="PreviousExperience" component={PreviousExperience} options={{ title: 'PreviousExperience' }} />
-        <Stack.Screen name="PreviousSkill" component={PreviousSkill} options={{ title: 'PreviousSkill' }} />
+        <Stack.Screen name="PreviousSkills" component={PreviousSkills} options={{ title: 'PreviousSkills' }} />
         <Stack.Screen name="OrganizationDetail" component={OrganizationDetail} options={{ title: 'OrganizationDetail' }} />
         <Stack.Screen name="Applicant" component={Applicant} options={{ title: 'Applicant' }} />
         <Stack.Screen name="Organization" component={Organization} options={{ title: 'Organization' }} />
@@ -66,6 +68,8 @@ const RootNavigator = () => {
         <Stack.Screen name="OrganizationSettingNavigator" component={OrganizationSettingNavigator} options={{ title: 'OrganizationSettingNavigator' }} />
         <Stack.Screen name="ApplicantSettingNavigator" component={ApplicantSettingNavigator} options={{ title: 'ApplicantSettingNavigator' }} />
         <Stack.Screen name="Org_Dashboard" component={Org_Dashboard} options={{ title: 'Org_Dashboard' }} />
+        <Stack.Screen name="App_Dashboard" component={App_Dashboard} options={{ title: 'App_Dashboard' }} />
+        <Stack.Screen name="App_Verify" component={App_Verify} options={{ title: 'App_Verify' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

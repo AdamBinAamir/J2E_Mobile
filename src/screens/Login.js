@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, ToastAndroid } from 'react-native';
+import { View, Text, TextInput, Button, ToastAndroid, AsyncStorage } from 'react-native';
 import {useDispatch} from 'react-redux';
-import FetchData from '../network/fetchData';
 
 const Login = ({navigation}) => {
   const dispatch = useDispatch();
@@ -21,9 +20,11 @@ const Login = ({navigation}) => {
         }),
       });
       const json = await response.json();
-      navigation.navigate('FindJobs');
+       await AsyncStorage.setItem('id',JSON.stringify(json.id));
+      navigation.navigate('App_Dashboard');
+      const id = await AsyncStorage.getItem('id');
       console.log(json);
-     
+     console.log(id);
     } catch (error) {
       console.log('invalid Credentials');
       ToastAndroid.show('Invalid Credentials', ToastAndroid.SHORT);

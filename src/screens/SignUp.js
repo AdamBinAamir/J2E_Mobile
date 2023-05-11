@@ -32,8 +32,10 @@ const SignUp = ({navigation}) => {
     };
     try {
       await dispatch(FetchData.Signup(body));
+      navigation.navigate('GeneralDetails');
     } catch (error) {
       console.log('ERRRRR', error);
+      console.log('Error: ', body);
       ToastAndroid.show('InValid Credentials', ToastAndroid.SHORT);
     }
     setLoading(false);

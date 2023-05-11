@@ -15,7 +15,7 @@ import FetchData from '../../network/fetchData';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import LoadingIndicator from '../../Components/LoadingIndicator';
 
-const PreviousSkill = ({navigation}) => {
+const PreviousSkills = ({navigation}) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
@@ -33,7 +33,7 @@ const PreviousSkill = ({navigation}) => {
     };
     try {
       // await dispatch(FetchData.Skill(body));
-      navigation.navigate('Applicant Bottom Tab', {navigatedFrom: 'applicant'});
+      navigation.navigate('App_Verify');
     } catch (error) {
       ToastAndroid.show('Something has wrong', ToastAndroid.SHORT);
     }
@@ -218,4 +218,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default PreviousSkill;
+export default PreviousSkills;
