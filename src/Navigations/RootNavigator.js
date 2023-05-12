@@ -32,6 +32,7 @@ import ApplicantSettingNavigator from './ApplicantSettingNavigator';
 import Org_Dashboard from './Org_Dashboard';
 import App_Dashboard from './App_Dashboard';
 import App_Verify from '../screens/App_Verify';
+import Org_Verify from '../screens/Org_Verify';
 
 const Stack = createNativeStackNavigator();
 
@@ -70,6 +71,7 @@ const RootNavigator = () => {
         <Stack.Screen name="Org_Dashboard" component={Org_Dashboard} options={{ title: 'Org_Dashboard' }} />
         <Stack.Screen name="App_Dashboard" component={App_Dashboard} options={{ title: 'App_Dashboard' }} />
         <Stack.Screen name="App_Verify" component={App_Verify} options={{ title: 'App_Verify' }} />
+        <Stack.Screen name="Org_Verify" component={Org_Verify} options={{ title: 'Org_Verify' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, ToastAndroid } from 'react-native';
+import { View, Text, TextInput, Button, ToastAndroid, AsyncStorage } from 'react-native';
 
 const Login_Org = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -18,8 +18,11 @@ const Login_Org = ({navigation}) => {
         }),
       });
       const json = await response.json();
+      await AsyncStorage.setItem('id',JSON.stringify(json.id));
       navigation.navigate('Org_Dashboard');
+      const id = await AsyncStorage.getItem('id');
       console.log(json);
+     console.log(id);
      
     } catch (error) {
       console.log('invalid Credentials');

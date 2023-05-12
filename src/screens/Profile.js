@@ -104,10 +104,9 @@ const sendFile = async () => {
         style={[
           {
             flexDirection: 'row',
-            padding: 2,
-            margin: 5,
-            marginLeft: 280,
-            justifyContent: 'flex-end',
+            padding: '0%',
+            margin: '2%',
+            alignSelf:'flex-end',
             borderWidth: 1,
             borderRadius: 5,
             width: 70,
@@ -122,19 +121,24 @@ const sendFile = async () => {
         </Pressable>
         <Icon style={{marginTop: 8}} name="edit" size={20} color="black" />
       </View>
-
-      <View style={{flex: 1}}></View>
+      {fileResponse.map((file, index) => (
+        <Text
+          key={index.toString()}
+          style={style.name}
+          numberOfLines={3}
+          ellipsizeMode={'middle'}>
+          {file?.name}
+        </Text>
+      ))}
       <View
         style={[
           {
-            width: '50%',
-            height: '50%',
-            marginLeft: '5%',
-            marginTop: '7%',
+            marginTop: '3%',
             alignSelf: 'center',
             flexDirection: 'row',
           },
         ]}>
+          
         <Button
           title="Upload CV"
           enctype="multipart/form-data"
@@ -165,6 +169,13 @@ const sendFile = async () => {
 };
 
 const style = StyleSheet.create({
+  name:{
+    alignSelf: 'center',
+    flexDirection: 'row',
+  },
+  submitButton:{
+    marginLeft:'3%',
+  },
   heading: {
     fontSize: 17,
     color: 'black',
@@ -240,7 +251,8 @@ const style = StyleSheet.create({
   text: {
     width: 50,
     padding: 5,
-    color: 'black',
+    color: 'white',
+    backgroundColor:'black',
     fontSize: 18,
   },
 });
