@@ -11,7 +11,7 @@ const GeneralDetails = ({navigation}) => {
     
     const id = await AsyncStorage.getItem('id');
     try {
-      const response = await fetch('https://e36f-206-84-141-75.ngrok-free.app/profile', {
+      const response = await fetch('https://4be6-206-84-141-94.ngrok-free.app/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

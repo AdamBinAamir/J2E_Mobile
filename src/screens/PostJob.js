@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, ToastAndroid, AsyncStorage } from 'react-native';
 
+import LoadingIndicator from '../Components/LoadingIndicator';
+
 
 const PostJob = ({navigation}) => {
   const [designation, setDesignation] = useState('');
@@ -8,12 +10,16 @@ const PostJob = ({navigation}) => {
   const [salary, setSalary] = useState('');
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
+  
+  const [loading, setLoading] = useState(false);
+  
 
   const handlePostJob = async () => {
+    setLoading(true);
         const id = await AsyncStorage.getItem('id');
           console.log(id);
     try {
-      const response = await fetch('https://e36f-206-84-141-75.ngrok-free.app/jobs', {
+      const response = await fetch('https://4be6-206-84-141-94.ngrok-free.app/jobs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -33,6 +39,7 @@ const PostJob = ({navigation}) => {
       const job_id = await AsyncStorage.getItem('job_id');
       console.log(json);
      console.log(job_id);
+     setLoading(false);
     } catch (error) {
       console.log('invalid Credentials');
       ToastAndroid.show('Invalid Credentials', ToastAndroid.SHORT);
@@ -42,6 +49,7 @@ const PostJob = ({navigation}) => {
 
   return (
     <View>
+      {loading && <LoadingIndicator />}
       <Text>Job Details</Text>
       <Text>Designation</Text>
       <TextInput onChangeText={(text) => setDesignation(text)} />

@@ -1,20 +1,20 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   ScrollView,
   StyleSheet,
   ToastAndroid,
-  Pressable, Button,AsyncStorage
+  Pressable,
+  Button,
+  AsyncStorage,
 } from 'react-native';
-import FetchData from '../network/fetchData';
-import {useDispatch} from 'react-redux';
 import LoadingIndicator from '../Components/LoadingIndicator';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import DocumentPicker, {types} from 'react-native-document-picker';
+import DocumentPicker from 'react-native-document-picker';
 
-const Profile = ({navigation}) => {
-  const [fileResponse, setfileResponse] = useState([]);
+const Profile = ({ navigation }) => {
+    const [fileResponse, setfileResponse] = useState([]);
    //FUNCTION OF GETTING FILE FROM PHONE
 
    const uploadFile = async () => {
@@ -52,7 +52,7 @@ const sendFile = async () => {
   try {
     const id = await AsyncStorage.getItem('id');
     console.log('id',id);
-    await fetch(`https://e36f-206-84-141-75.ngrok-free.app/upload?user_id=${id}`, {
+    await fetch(`https://4be6-206-84-141-94.ngrok-free.app/upload?user_id=${id}`, {
       method: 'post',
       body: data,
       headers: {
@@ -60,47 +60,42 @@ const sendFile = async () => {
       },
     });
     ToastAndroid.show('Upload Successfully', ToastAndroid.SHORT);
-    navigation.navigate('App_Verify');
     console.log(data);
   } catch (error) {
     console.log(error);
   }
 };
 
-  // const dispatch = useDispatch();
-  const [loading, setLoading] = React.useState(false);
-  const [profile, setProfile] = React.useState({
-    name: 'John',
-    email: 'john@gmail.com',
-    contact: '0333-333333',
-    education: ['BS', 'MS'],
-    skill: [''],
-    experience: [''],
-  });
 
-  // React.useEffect(() => {
-  //   getProfile();
-  // }, []);
+  const [userProfile, setUserProfile] = useState(null);
 
-  const getProfile = async () => {
-    setLoading(true);
-
+  const fetchUserProfile = async () => {
+    const id = await AsyncStorage.getItem('id');
     try {
-      // const profileData = await FetchData.getProfile();
-      setTimeout(1000, () => {
-        setProfile(profileData);
-        setLoading(false);
-      });
+      const response = await fetch(`https://4be6-206-84-141-94.ngrok-free.app/profile?user_id=${id}`);
+      const data = await response.json();
+      setUserProfile(data);
     } catch (error) {
-      ToastAndroid.show('Something has wrong', ToastAndroid.SHORT);
+      console.error('Failed to fetch user profile data', error);
     }
   };
 
-  return loading ? (
-    <LoadingIndicator />
-  ) : (
-    <ScrollView style={{backgroundColor: 'white'}}>
-      <View
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
+
+  if (!userProfile) {
+    // Render loading indicator while fetching data
+    return (
+      <View style={style.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  return (
+    <ScrollView style={{ backgroundColor: 'white' }}>
+       <View
         style={[
           {
             flexDirection: 'row',
@@ -114,13 +109,14 @@ const sendFile = async () => {
         ]}>
         <Pressable
           onPress={() => {
-            navigation.navigate('EditProfile', {profile});
+            navigation.navigate('EditProfile');
           }}
           color={'#141413'}>
           <Text style={style.text}>Edit</Text>
         </Pressable>
         <Icon style={{marginTop: 8}} name="edit" size={20} color="black" />
       </View>
+      
       {fileResponse.map((file, index) => (
         <Text
           key={index.toString()}
@@ -151,24 +147,30 @@ const sendFile = async () => {
           <Button title="Submit" color={'black'} onPress={sendFile} />
         </View>
       </View>
-      <Text style={style.heading}>Name: {profile.name}</Text>
-      <Text style={style.h1}>Email: {profile.email}</Text>
-      <Text style={style.h2}>Contact: {profile.contact}</Text>
-      <Text style={style.h3}>Education: </Text>
-      <Text style={style.h4}>- BS - Air University</Text>
-      <Text style={style.h5}>- MS - In progress</Text>
-      <Text style={style.h6}>Skills: {profile.skill}</Text>
-      <Text style={style.h7}>- Mysql</Text>
-      <Text style={style.h8}>- Python</Text>
-      <Text style={style.h9}>- Devops</Text>
-      <Text style={style.h10}>Experience: {profile.experience}</Text>
-      <Text style={style.h11}>- FrontEnd Developer - Synergy</Text>
-      <Text style={style.h12}>- SQA - Techverx</Text>
+      <View style={style.container}>
+        <Text style={style.title}>User Profile</Text>
+        <Text>Name: {userProfile.name}</Text>
+        <Text>Education: {userProfile.education}</Text>
+        <Text>Phone: {userProfile.phone}</Text>
+        <Text>Skills: {userProfile.skills}</Text>
+        <Text>Experiences: {userProfile.experiences}</Text>
+      </View>
     </ScrollView>
   );
 };
 
 const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
   name:{
     alignSelf: 'center',
     flexDirection: 'row',

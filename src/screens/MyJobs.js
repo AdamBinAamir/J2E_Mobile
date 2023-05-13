@@ -1,178 +1,221 @@
-import * as React from 'react';
-import {useDispatch} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { FlatList, View, Text, TextInput, StyleSheet, Button, TouchableOpacity, AsyncStorage, ToastAndroid } from 'react-native';
+
 import LoadingIndicator from '../Components/LoadingIndicator';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Button,
-  FlatList,
-  ToastAndroid,
-} from 'react-native';
+import axios from 'axios';
 
 const MyJobs = () => {
-  const dispatch = useDispatch();
-  const [jobs, setJobs] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
+  const [data, setData] = useState([]);
+  const [searchText, setSearchText] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  
+  const [loading, setLoading] = useState(false);
 
-  React.useEffect(() => {
-    fetchJobs();
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
-  const fetchJobs = async () => {
-    setLoading(true);
+  const fetchData = async () => {
+    const id = await AsyncStorage.getItem('id');
+    console.log('id: ',id)
     try {
-      // const res = await dispatch();
-      setJobs(res);
+      const response = await axios.get(`https://4be6-206-84-141-94.ngrok-free.app/application?user_id=${id}`);
+      setData(response.data);
     } catch (error) {
-      // ToastAndroid.show();
+      console.error(error);
     }
-    setLoading(false);
+  };
+  const WithdrawApplication = async (itemId) => {
+    setLoading(true);
+    const id = await AsyncStorage.getItem('id');
+    await AsyncStorage.setItem('itemid',itemId);
+     try {
+      const response = await fetch(`https://4be6-206-84-141-94.ngrok-free.app/application?user_id=${id}&job_id=${itemId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+     console.log('Application Withdrawed from Job: ',id);
+     console.log('ItemId',itemId);
+     setLoading(false);
+     reloadData();    
+     ToastAndroid.show('Application Withdrawn', ToastAndroid.SHORT);
+     
+    } catch (error) {
+      console.log('invalid Credentials');
+
+      ToastAndroid.show('Unable to withdraw', ToastAndroid.SHORT);
+      console.error(error);
+    }
+      console.log(`Application Withdrawn: ${itemId}`);
+  };
+  const reloadData = async () => {
+    setLoading(true);
+    const id = await AsyncStorage.getItem('id');
+    try {
+      const response = await axios.get(`https://4be6-206-84-141-94.ngrok-free.app/application?user_id=${id}`);
+      setData(response.data);
+      setLoading(false);
+      ToastAndroid.show('No Jobs Available', ToastAndroid.SHORT);
+    } catch (error) {
+      ToastAndroid.show('No Jobs', ToastAndroid.SHORT);
+    }
+  };
+  const searchJobs = (text) => {
+    setSearchText(text);
+
+    if (text.length === 0) {
+      setSearchResults([]);
+      return;
+    }
+
+    const results = data.filter((item) =>
+      item.designation.toLowerCase().includes(text.toLowerCase())
+    );
+    setSearchResults(results);
   };
 
-  const Data = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      jobDescription: 'Software Engineer',
-      description: 'We need a software engineer to work in paced environment.',
-      location: 'Islamabad',
-      salary: '50,000',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      jobDescription: 'Developer',
-      description: 'We need a developer to work in paced environment.',
-      location: 'Lahore',
-      salary: '10,000',
-    },
-  ];
-
-  const itemRender = ({item}) => (
-    <>
-      <View style={{marginTop: 0}} />
-      <View style={style.cardView}>
-        <Text style={style.h1}>{item.jobDescription}</Text>
-        <Text style={style.h2}>{item.location}</Text>
-        <Text style={style.h3}>Salary: {item.salary}</Text>
-        <Text style={style.h4}>Description: </Text>
-        <Text style={style.h5}>{item.description}</Text>
-        <View style={style.cardButton}>
-          <Button
-            style={style.cardButton}
-            title="Update Status"
-            color="#1a1c1b"
-          />
-        </View>
-      </View>
-    </>
-  );
+  const renderItem = ({ item }) => {
 
   return (
-    <View style={{backgroundColor: 'white'}}>
-      {loading && <LoadingIndicator />}
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} />
-      <View style={{marginTop: 15}} />
-      <Text style={style.textTitle}>Jobs of *Username*</Text>
-
-      <FlatList
-        data={Data}
-        renderItem={itemRender}
-        keyExtractor={item => item.id}
-      />
-
-      {/* <View style={style.cardView}>
-        <Text style={style.h1}>Software Engineer</Text>
-        <Text style={style.h2}>Islamabad</Text>
-        <Text style={style.h3}>Salary: 50,000</Text>
-        <Text style={style.h4}>Description:</Text>
-        <Text style={style.h5}>
-          We need a software Engineer to work in paced environment.
-        </Text>
-        <Text style={style.h6}>Status: Hired</Text>
-        <View style={style.cardButton}>
-          <Button title="Update Status" color="#1a1c1b" />
+    <View style={styles.itemContainer}>
+      <Text style={styles.name}>Organization: {item.name}</Text>
+      <Text style={styles.category}>Category: {item.category}</Text>
+      <Text style={styles.designation}>Job Title: {item.designation}</Text>
+      <Text style={styles.description}>Job Description: {item.description}</Text>
+      <Text style={styles.location}>Location: {item.location}</Text>
+      <Text style={styles.salary}>Expected Salary: {item.salary}</Text>
+      <Text style={styles.status}>Application Status: {item.status}</Text>
+      <View style={styles.submitButton}>
+          <Button 
+          title="Withdraw Application" 
+          color={'black'}
+          onPress={() => WithdrawApplication(item.id)}
+            />
         </View>
-      </View>
-
-      <View style={{marginTop: 0}} />
-      <View style={style.cardView}>
-        <Text style={style.h1}>Developer</Text>
-        <Text style={style.h2}>Islamabad</Text>
-        <Text style={style.h3}>Salary: 50,000</Text>
-        <Text style={style.h4}>Description:</Text>
-        <Text style={style.h5}>
-          We need a developer to work in paced environment.
-        </Text>
-        <Text style={style.h6}>Status: Rejected</Text>
-        <View style={style.cardButton}>
-          <Button title="Update Status" color="#1a1c1b" />
-        </View>
-      </View> */}
     </View>
   );
 };
 
-const style = StyleSheet.create({
+  const renderEmptyList = () => (
+    <View style={styles.emptyContainer}>
+      <Text style={styles.emptyText}>No jobs found.</Text>
+    </View>
+  );
+
+  const renderSearchResults = () => {
+    if (searchText.length === 0 || searchResults.length === 0) {
+      return null;
+    }
+
+    return (
+      <View style={styles.searchResultsContainer}>
+        <Text style={styles.searchResultsText}>Search results: </Text>
+        <FlatList
+          data={searchResults}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.searchResultsList}
+        />
+      </View>
+    );
+  };
+
+  return (
+    <View style={styles.container}>
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Search jobs"
+        value={searchText}
+        onChangeText={searchJobs}
+      />
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.listContainer}
+        ListEmptyComponent={renderEmptyList}
+      />
+      {renderSearchResults()}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    backgroundColor: '#F5F5F5',
+  },
+  searchInput: {
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    marginBottom: 16,
+    paddingHorizontal: 8,
+    backgroundColor: '#FFF',
+  },
+  listContainer: {
+    flexGrow: 1,
+  },
+  itemContainer: {
+    backgroundColor: '#FFF',
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 12,
+    elevation: 2,
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  category: {
+    fontSize: 16,
+    color: '#888',
+    marginBottom: 8,
+  },
+  designation: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  description: {
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  location: {
+    fontSize: 14,
+    color: '#888',
+    marginBottom: 8,
+  },
+  salary: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  searchResultsContainer: {
+    marginTop: 16,
+  },
+  searchResultsText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  searchResultsList: {
+    paddingBottom: 16,
+  },
+  emptyContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 10,
   },
-  textTitle: {
-    fontFamily: 'Foundation',
-    fontSize: 22,
-    margin: 10,
-    padding: 10,
-    alignSelf: 'flex-start',
-    color: '#010614',
-  },
-  cardView: {
-    display: 'flex',
-    height: 270,
-    margin: 15,
-    backgroundColor: 'lightgray',
-    padding: 5,
-  },
-  h1: {
-    color: 'black',
-    margin: 10,
-    fontSize: 20,
+  emptyText: {
+    fontSize: 16,
     fontWeight: 'bold',
-  },
-  h2: {
-    color: 'black',
-    margin: 10,
-    fontSize: 15,
-  },
-  h3: {
-    color: 'black',
-    fontSize: 15,
-    marginBottom: 20,
-    marginLeft: 10,
-  },
-  h4: {
-    color: 'black',
-    fontSize: 15,
-    marginLeft: 10,
-    marginBottom: 0,
-    fontWeight: 'bold',
-  },
-  h5: {
-    fontSize: 15,
-    margin: 10,
-    color: 'black',
-  },
-  h6: {
-    fontSize: 15,
-    margin: 10,
-    color: 'black',
-    fontWeight: 'bold',
-  },
-  cardButton: {
-    width: 160,
-    alignSelf: 'center',
   },
 });
 

@@ -1,15 +1,27 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, ToastAndroid, AsyncStorage } from 'react-native';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-const SignUp = ({navigation}) => {
+const SignUp = ({ navigation }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   const handleSignUp = async () => {
+    // Perform form validation
+    if (!validateEmail(email)) {
+      setEmailError('Invalid email');
+      return;
+    }
+    if (!validatePassword(pass)) {
+      setPasswordError('Password must be at least 6 characters');
+      return;
+    }
+
     try {
-      const response = await fetch('https://e36f-206-84-141-75.ngrok-free.app/signup', {
+      const response = await fetch('https://4be6-206-84-141-94.ngrok-free.app/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -21,16 +33,27 @@ const SignUp = ({navigation}) => {
         }),
       });
       const json = await response.json();
-       await AsyncStorage.setItem('id',JSON.stringify(json.id));
+      await AsyncStorage.setItem('id', JSON.stringify(json.id));
       navigation.navigate('GeneralDetails');
       const id = await AsyncStorage.getItem('id');
       console.log(json);
-     console.log(id);
+      console.log(id);
     } catch (error) {
-      console.log('invalid Credentials');
+      console.log('Invalid Credentials');
       ToastAndroid.show('Invalid Credentials', ToastAndroid.SHORT);
       console.error(error);
     }
+  };
+
+  // Email validation function
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  // Password validation function
+  const validatePassword = (password) => {
+    return password.length >= 6;
   };
 
   return (
@@ -40,8 +63,10 @@ const SignUp = ({navigation}) => {
       <TextInput onChangeText={(text) => setName(text)} />
       <Text>Email</Text>
       <TextInput onChangeText={(text) => setEmail(text)} />
+      {emailError ? <Text style={{ color: 'red' }}>{emailError}</Text> : null}
       <Text>Password</Text>
       <TextInput secureTextEntry={true} onChangeText={(text) => setPass(text)} />
+      {passwordError ? <Text style={{ color: 'red' }}>{passwordError}</Text> : null}
       <Button title="SignUp" onPress={handleSignUp} />
       <Text>OR</Text>
       <Button title="Login" onPress={() => navigation.navigate('Login')} />
@@ -50,6 +75,7 @@ const SignUp = ({navigation}) => {
 };
 
 export default SignUp;
+
 
 // import React, {useState} from 'react';
 // import axios from 'axios';

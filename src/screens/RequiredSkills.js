@@ -1,28 +1,32 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, Button, ToastAndroid, AsyncStorage } from 'react-native';
+import LoadingIndicator from '../Components/LoadingIndicator';
 
-
-const RequiredSkills = ({navigation}) => {
-
+const RequiredSkills = ({ navigation }) => {
+  const [loading, setLoading] = useState(false);
+  const [skills, setSkills] = useState([]);
   const [skill, setSkill] = useState('');
 
   const handleRequiredSkills = async () => {
-    
+    setLoading(true);
     const id = await AsyncStorage.getItem('job_id');
     try {
-      const response = await fetch('https://e36f-206-84-141-75.ngrok-free.app/jobs/skills', {
+      const response = await fetch('https://4be6-206-84-141-94.ngrok-free.app/jobs/skills', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           job_id: id,
-          skill: skill,
+          skills: skills,
         }),
       });
+      const body = {job_id: id, skills: skills}; 
+      console.log('data',body);
+      console.log('job_id:', id);
+      setLoading(false);
+      ToastAndroid.show('Skills Saved', ToastAndroid.SHORT);
       navigation.navigate('Org_Dashboard');
-      console.log('job_id:',id);
-      ToastAndroid.show('Successfully Posted', ToastAndroid.SHORT);
     } catch (error) {
       console.log('invalid Credentials');
       ToastAndroid.show('Invalid Credentials', ToastAndroid.SHORT);
@@ -30,17 +34,78 @@ const RequiredSkills = ({navigation}) => {
     }
   };
 
+  const addSkill = () => {
+    if (skill.trim() === '') {
+      return;
+    }
+    setSkills([...skills, skill]);
+    setSkill('');
+  };
+
   return (
     <View>
-      <Text>Required Skill</Text>
-      <Text>Skill</Text>
-      <TextInput onChangeText={(text) => setSkill(text)} />
+      {loading && <LoadingIndicator />}
+      <Text>Required Skills</Text>
+      {skills.map((skill, index) => (
+        <Text key={index}>{skill}</Text>
+      ))}
+      <TextInput onChangeText={(text) => setSkill(text)} value={skill} />
+      <Button title="Add Skill" onPress={addSkill} />
       <Button title="Next" onPress={handleRequiredSkills} />
     </View>
   );
 };
 
 export default RequiredSkills;
+
+// import React, { useState } from 'react';
+// import { StyleSheet, View, Text, TextInput, Button, ToastAndroid, AsyncStorage } from 'react-native';
+// import LoadingIndicator from '../Components/LoadingIndicator';
+
+// const RequiredSkills = ({navigation}) => {
+
+//   const [loading, setLoading] = useState(false);
+//   const [skill, setSkill] = useState('');
+
+//   const handleRequiredSkills = async () => {
+//     setLoading(true);
+//     const id = await AsyncStorage.getItem('job_id');
+//     try {
+//       const response = await fetch('https://4be6-206-84-141-94.ngrok-free.app/jobs/skills', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//           job_id: id,
+//           skill: skill,
+//         }),
+//       });
+//       console.log('job_id:',id);
+//       setLoading(false);
+//       ToastAndroid.show('Successfully Posted', ToastAndroid.SHORT);
+      
+//       navigation.navigate('Org_Dashboard');
+
+//     } catch (error) {
+//       console.log('invalid Credentials');
+//       ToastAndroid.show('Invalid Credentials', ToastAndroid.SHORT);
+//       console.error(error);
+//     }
+//   };
+
+//   return (
+//     <View>
+//       {loading && <LoadingIndicator />}
+//       <Text>Required Skill</Text>
+//       <Text>Skill</Text>
+//       <TextInput onChangeText={(text) => setSkill(text)} />
+//       <Button title="Next" onPress={handleRequiredSkills} />
+//     </View>
+//   );
+// };
+
+// export default RequiredSkills;
 
 // import React, {useState} from 'react';
 // import {

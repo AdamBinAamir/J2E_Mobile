@@ -1,27 +1,32 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, Button, ToastAndroid, AsyncStorage } from 'react-native';
-import {useDispatch} from 'react-redux';
+import LoadingIndicator from '../../Components/LoadingIndicator';
 
-const PreviousExperience = ({navigation}) => {
-
+const PreviousExperience = ({ navigation }) => {
+  const [loading, setLoading] = useState(false);
+  const [experiences, setExperiences] = useState([]);
   const [experience, setExperience] = useState('');
 
-  const handleExperience = async () => {
-    
+  const handleRequiredExperiences = async () => {
+    setLoading(true);
     const id = await AsyncStorage.getItem('id');
     try {
-      const response = await fetch('https://e36f-206-84-141-75.ngrok-free.app/profile/experience', {
+      const response = await fetch('https://4be6-206-84-141-94.ngrok-free.app/profile/experience', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           user_id: id,
-          experience: experience,
+          experiences: experiences,
         }),
       });
+      const body = {user_id: id, experiences: experiences}; 
+      console.log('data',body);
+      console.log('user_id:', id);
+      setLoading(false);
+      ToastAndroid.show('Experiences Saved', ToastAndroid.SHORT);
       navigation.navigate('PreviousSkills');
-     console.log('id:',id);
     } catch (error) {
       console.log('invalid Credentials');
       ToastAndroid.show('Invalid Credentials', ToastAndroid.SHORT);
@@ -29,17 +34,73 @@ const PreviousExperience = ({navigation}) => {
     }
   };
 
+  const addExperience = () => {
+    if (experience.trim() === '') {
+      return;
+    }
+    setExperiences([...experiences, experience]); // Make sure experience is a string
+    setExperience('');
+  };
+
   return (
     <View>
-      <Text>Applicant Previous Experience</Text>
-      <Text>Experience</Text>
-      <TextInput onChangeText={(text) => setExperience(text)} />
-      <Button title="Next" onPress={handleExperience} />
+      {loading && <LoadingIndicator />}
+      <Text>Required Experiences</Text>
+      {experiences.map((experience, index) => (
+        <Text key={index}>{experience}</Text>
+      ))}
+      <TextInput onChangeText={(text) => setExperience(text)} value={experience} />
+      <Button title="Add Experience" onPress={addExperience} />
+      <Button title="Next" onPress={handleRequiredExperiences} />
     </View>
   );
 };
 
 export default PreviousExperience;
+
+
+// import React, { useState } from 'react';
+// import { StyleSheet, View, Text, TextInput, Button, ToastAndroid, AsyncStorage } from 'react-native';
+// import {useDispatch} from 'react-redux';
+
+// const PreviousExperience = ({navigation}) => {
+
+//   const [experience, setExperience] = useState('');
+
+//   const handleExperience = async () => {
+    
+//     const id = await AsyncStorage.getItem('id');
+//     try {
+//       const response = await fetch('https://4be6-206-84-141-94.ngrok-free.app/profile/experience', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//           user_id: id,
+//           experience: experience,
+//         }),
+//       });
+//       navigation.navigate('PreviousSkills');
+//      console.log('id:',id);
+//     } catch (error) {
+//       console.log('invalid Credentials');
+//       ToastAndroid.show('Invalid Credentials', ToastAndroid.SHORT);
+//       console.error(error);
+//     }
+//   };
+
+//   return (
+//     <View>
+//       <Text>Applicant Previous Experience</Text>
+//       <Text>Experience</Text>
+//       <TextInput onChangeText={(text) => setExperience(text)} />
+//       <Button title="Next" onPress={handleExperience} />
+//     </View>
+//   );
+// };
+
+// export default PreviousExperience;
 
 
 // import React, {useState} from 'react';

@@ -14,8 +14,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 
-const EditProfile = ({navigation, route}) => {
-  const profile = route.params.profile;
+const EditProfile = ({navigation}) => {
 
   const [loading, setLoading] = React.useState(false);
   const [educationField, setEducationField] = React.useState(profile.education);

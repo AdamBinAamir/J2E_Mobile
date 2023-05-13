@@ -11,7 +11,7 @@ const SignUp_Org = ({navigation}) => {
 
   const handleSignUpOrg = async () => {
     try {
-      const response = await fetch('https://e36f-206-84-141-75.ngrok-free.app/organizations/signup', {
+      const response = await fetch('https://4be6-206-84-141-94.ngrok-free.app/organizations/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
