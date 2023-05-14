@@ -22,7 +22,7 @@ const PreviousExperience = ({ navigation }) => {
     setLoading(true);
     const id = await AsyncStorage.getItem('id');
     try {
-      const response = await fetch('https://4be6-206-84-141-94.ngrok-free.app/profile/experience', {
+      const response = await fetch('https://59ec-119-73-100-124.ngrok-free.app/profile/experience', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, ToastAndroid, AsyncStorage } from 'react-native';
-
+import { View, Text, TextInput, Button, ToastAndroid, AsyncStorage,ScrollView,StyleSheet, Pressable } from 'react-native';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import LoadingIndicator from '../Components/LoadingIndicator';
 
 
@@ -19,7 +19,7 @@ const PostJob = ({navigation}) => {
         const id = await AsyncStorage.getItem('id');
           console.log(id);
     try {
-      const response = await fetch('https://4be6-206-84-141-94.ngrok-free.app/jobs', {
+      const response = await fetch('https://59ec-119-73-100-124.ngrok-free.app/jobs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,33 +40,209 @@ const PostJob = ({navigation}) => {
       console.log(json);
      console.log(job_id);
      setLoading(false);
+     ToastAndroid.show('Details Saved', ToastAndroid.SHORT);
     } catch (error) {
       console.log('invalid Credentials');
       ToastAndroid.show('Invalid Credentials', ToastAndroid.SHORT);
       console.error(error);
+      setLoading(false);
     }
   };
 
   return (
-    <View>
-      {loading && <LoadingIndicator />}
-      <Text>Job Details</Text>
-      <Text>Designation</Text>
-      <TextInput onChangeText={(text) => setDesignation(text)} />
-      <Text>location</Text>
-      <TextInput onChangeText={(text) => setLocation(text)} />
-      <Text>Salary</Text>
-      <TextInput onChangeText={(text) => setSalary(text)} />
-      <Text>Category</Text>
-      <TextInput onChangeText={(text) => setCategory(text)} />
-      <Text>Description</Text>
-      <TextInput onChangeText={(text) => setDescription(text)} />
-
-      <Button title="Next" onPress={handlePostJob} />
-    </View>
-  );
-};
-
+    <View style={[style.container]}>
+            {loading && <LoadingIndicator />}
+             <Text style={style.textTitle}>Job Details</Text>
+                <View style={style.textBody}>
+                  <View style={style.postJobFieldContainer}>
+                    <Icon
+                      name="user"
+                      size={30}
+                      color="#262222"
+                      style={style.icon}
+                    />
+                    <TextInput
+                      style={{width: 200}}
+                      name="designation"
+                      color="#262222"
+                      placeholder="Designation"
+                      placeholderTextColor={'black'}
+                      onChangeText={(text) => setDesignation(text)}
+                      ></TextInput>
+                  </View>
+    
+                  <View style={style.postJobFieldContainer}>
+                    <Icon
+                      name="location-arrow"
+                      size={27}
+                      color="#262222"
+                      style={style.icon}
+                    />
+                    <TextInput
+                      style={{width: 200}}
+                      name="location"
+                      color="#262222"
+                      placeholder="Location"
+                      placeholderTextColor={'black'}
+                      onChangeText={(text) => setLocation(text)}
+                      ></TextInput>
+                  </View>
+                  <View
+                    style={{
+                      ...style.postJobFieldContainer,
+                      justifyContent: 'space-between',
+                    }}>
+                    <View style={{flexDirection: 'row'}}>
+                      <Icon
+                        name="money"
+                        size={30}
+                        color="#262222"
+                        style={style.icon}
+                      />
+                      <TextInput
+                        style={{width: 200}}
+                        name="salary"
+                        color="#262222"
+                        placeholder="Salary"
+                        placeholderTextColor={'black'}
+                        onChangeText={(text) => setSalary(text)}
+                        ></TextInput>
+                    </View>
+                  </View>
+                  <View
+                    style={{
+                      ...style.postJobFieldContainer,
+                      justifyContent: 'space-between',
+                    }}>
+                    <View style={{flexDirection: 'row'}}>
+                      <Icon
+                        name="reddit"
+                        size={30}
+                        color="#262222"
+                        style={style.icon}
+                      />
+                      <TextInput
+                        style={{width: 200}}
+                        name="category"
+                        color="#262222"
+                        placeholder="Category"
+                        placeholderTextColor={'black'}
+                        onChangeText={(text) => setCategory(text)}
+                        ></TextInput>
+                    </View>
+                  </View>
+                  <View
+                    style={[
+                      style.descriptionFieldContainer,
+                      {justifyContent: 'space-between'},
+                    ]}>
+                    <View style={{flexDirection: 'row'}}>
+                      <Icon
+                        name="comment"
+                        size={30}
+                        color="#262222"
+                        style={style.icon}
+                      />
+                      <TextInput
+                        style={[style.description, {width: 200}]}
+                        multiline
+                        name="description"
+                        color="#262222"
+                        placeholder="Description"
+                        placeholderTextColor={'black'}
+                        onChangeText={(text) => setDescription(text)}
+                        ></TextInput>
+                    </View>
+                  </View>
+                  <Pressable
+                    style={style.Button1}
+                    onPress={handlePostJob}
+                    color={'#141413'}>
+                    <Text style={style.text}>Next</Text>
+                  </Pressable>
+                </View>
+          </View>
+      );
+    };
+    
+    const style = StyleSheet.create({
+      container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 10,
+      },
+      textBody: {
+        fontFamily: 20,
+      },
+      textTitle: {
+        fontFamily: 'Foundation',
+        fontSize: 28,
+        marginVertical: 10,
+        marginBottom: 10,
+        marginTop: 15,
+        alignSelf: 'center',
+        color: '#01050d',
+      },
+      Button1: {
+        width: 110,
+        height: 50,
+        borderRadius: 30,
+        marginVertical: 10,
+        marginTop: 5,
+        borderWidth: 2,
+        backgroundColor: '#010614',
+        alignSelf: 'center',
+      },
+      Button2: {
+        width: 110,
+        height: 40,
+        borderRadius: 30,
+        marginVertical: 10,
+        marginTop: 2,
+        borderWidth: 2,
+        backgroundColor: '#010614',
+        alignSelf: 'center',
+      },
+      text: {
+        alignSelf: 'center',
+        fontFamily: 'Foundation',
+        fontSize: 22,
+        marginTop: 10,
+        color: 'white',
+      },
+      postJobFieldContainer: {
+        display: 'flex',
+        borderWidth: 3,
+        flexDirection: 'row',
+        borderRadius: 30,
+        margin: 10,
+        height: 45,
+        paddingHorizontal: 15,
+        paddingTop: 3,
+        width: 270,
+        color: '#262222',
+      },
+      descriptionFieldContainer: {
+        display: 'flex',
+        borderWidth: 3,
+        flexDirection: 'row',
+        borderRadius: 30,
+        margin: 10,
+        height: 100,
+        paddingHorizontal: 15,
+        paddingTop: 3,
+        width: 270,
+        color: '#262222',
+      },
+      icon: {
+        marginRight: 5,
+      },
+      description: {
+        marginBottom: 55,
+      },
+    });
+    
 export default PostJob;
 
 

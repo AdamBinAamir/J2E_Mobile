@@ -41,7 +41,7 @@ const Stack = createNativeStackNavigator();
 const RootNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="App_Dashboard" screenOptions={{headerShown: false}}>
+      <Stack.Navigator initialRouteName="Dashboard" screenOptions={{headerShown: false}}>
         <Stack.Screen name="Dashboard" component={Dashboard} options={{ title: 'Dashboard' }} />
         <Stack.Screen name="EditProfile" component={EditProfile} options={{ title: 'EditProfile' }} />
         <Stack.Screen name="FindJobs" component={FindJobs} options={{ title: 'FindJobs' }} />

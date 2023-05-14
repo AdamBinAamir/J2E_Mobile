@@ -1,10 +1,7 @@
 import * as React from 'react';
 import {View, Text, ScrollView, StyleSheet, Button} from 'react-native';
-import {useDispatch} from 'react-redux';
-import {setLoggedInAction} from '../../redux/reduxSlice/user';
 
 const Dashboard = ({navigation}) => {
-  const dispatch = useDispatch();
   const Separator = () => <View style={style.separator} />;
   return (
       <View style={style.container}>

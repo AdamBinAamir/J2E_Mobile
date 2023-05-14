@@ -21,10 +21,26 @@ const SignUp_Org = ({navigation}) => {
   const [confirmpass, setConfirmPass] = useState('');
   const [website, setWebsite] = useState('');
   const [about, setAbout] = useState('');
+  const error = async () => {
+    if(website == '' || about == '' || name == '' || email=='' || pass == '' || confirmpass == '')
+   {
+    ToastAndroid.show('Credentials not Entered', ToastAndroid.LONG);
+    
+   }
+   else{
+    if(pass == confirmpass){
+    handleSignUpOrg();
+   }
+   else{
+    ToastAndroid.show('Passwords do not match', ToastAndroid.LONG);
+   }
+   }
+  };
 
   const handleSignUpOrg = async () => {
+    setLoading(true);
     try {
-      const response = await fetch('https://4be6-206-84-141-94.ngrok-free.app/organizations/signup', {
+      const response = await fetch('https://59ec-119-73-100-124.ngrok-free.app/organizations/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +56,10 @@ const SignUp_Org = ({navigation}) => {
       console.log(response);
       // const json = await response.json();
       //  await AsyncStorage.setItem('id',JSON.stringify(json.id));
+      setLoading(false);
       navigation.navigate('Org_Verify');
+      ToastAndroid.show('Credentials Saved', ToastAndroid.SHORT);
+
     //   const id = await AsyncStorage.getItem('id');
       // console.log(json);
     //  console.log(id);
@@ -48,13 +67,14 @@ const SignUp_Org = ({navigation}) => {
       console.log('invalid Credentials');
       ToastAndroid.show('Invalid Credentials', ToastAndroid.SHORT);
       console.error(error);
+      setLoading(false);
     }
   };
 
   return (
     <ScrollView style={{backgroundColor: 'white'}}>
+                   {loading && <LoadingIndicator />}
            <View style={[style.container]}>
-             {loading && <LoadingIndicator />}
              <Text style={style.textTitle}>Organization Sign Up</Text>
              <Text style={style.textTitle1}>Create a New Account</Text>
              <View style={{marginTop: 10}} />
@@ -189,7 +209,7 @@ const SignUp_Org = ({navigation}) => {
     
                   <Pressable
                     style={style.Button}
-                    onPress={handleSignUpOrg}
+                    onPress={error}
                     color={'#141413'}>
                     <Text style={style.text}>Sign Up</Text>
                   </Pressable>

@@ -52,7 +52,7 @@ const sendFile = async () => {
   try {
     const id = await AsyncStorage.getItem('id');
     console.log('id',id);
-    await fetch(`https://4be6-206-84-141-94.ngrok-free.app/upload?user_id=${id}`, {
+    await fetch(`https://59ec-119-73-100-124.ngrok-free.app/upload?user_id=${id}`, {
       method: 'post',
       body: data,
       headers: {
@@ -72,7 +72,7 @@ const sendFile = async () => {
   const fetchUserProfile = async () => {
     const id = await AsyncStorage.getItem('id');
     try {
-      const response = await fetch(`https://4be6-206-84-141-94.ngrok-free.app/profile?user_id=${id}`);
+      const response = await fetch(`https://59ec-119-73-100-124.ngrok-free.app/profile?user_id=${id}`);
       const data = await response.json();
       setUserProfile(data);
     } catch (error) {
@@ -108,9 +108,6 @@ const sendFile = async () => {
           },
         ]}>
         <Pressable
-          onPress={() => {
-            navigation.navigate('EditProfile');
-          }}
           color={'#141413'}>
           <Text style={style.text}>Edit</Text>
         </Pressable>
@@ -129,7 +126,7 @@ const sendFile = async () => {
       <View
         style={[
           {
-            marginTop: '3%',
+            marginTop: '10%',
             alignSelf: 'center',
             flexDirection: 'row',
           },
@@ -148,12 +145,11 @@ const sendFile = async () => {
         </View>
       </View>
       <View style={style.container}>
-        <Text style={style.title}>User Profile</Text>
-        <Text>Name: {userProfile.name}</Text>
-        <Text>Education: {userProfile.education}</Text>
-        <Text>Phone: {userProfile.phone}</Text>
-        <Text>Skills: {userProfile.skills}</Text>
-        <Text>Experiences: {userProfile.experiences}</Text>
+        <Text style={style.name}>Name: {userProfile.name}</Text>
+        <Text style={style.education}>Education: {userProfile.education}</Text>
+        <Text style={style.phone}>Phone: {userProfile.phone}</Text>
+        <Text style={style.skills}>Skills: {userProfile.skills}</Text>
+        <Text style={style.experiences}>Experiences: {userProfile.experiences}</Text>
       </View>
     </ScrollView>
   );
@@ -161,21 +157,50 @@ const sendFile = async () => {
 
 const style = StyleSheet.create({
   container: {
+    borderRadius:30,
+    marginVertical:'10%',
+    marginHorizontal:'10%',
+    
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#38393b',
+
+    color:'white'
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  name:{
-    alignSelf: 'center',
+  name: {
+    color:'white',
     flexDirection: 'row',
+    fontSize: 18,
+    marginTop:'5%',
+    marginBottom: '5%',
+  },
+  education: {
+    color:'white',
+    flexDirection: 'row',
+    fontSize: 18,
+    marginBottom: '5%',
+  },
+  phone: {
+    color:'white',
+    flexDirection: 'row',
+    fontSize: 18,
+    marginBottom: '5%',
+  },
+  skills: {
+    color:'white',
+    flexDirection: 'row',
+    fontSize: 18,
+    marginBottom: '5%',
+  },
+  experiences: {
+    color:'white',
+    flexDirection: 'row',
+    fontSize: 18,
+    marginBottom: '5%',
   },
   submitButton:{
+    borderRadius:10,
     marginLeft:'3%',
   },
   heading: {

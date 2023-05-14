@@ -20,7 +20,7 @@ const MyJobs = () => {
     const id = await AsyncStorage.getItem('id');
     console.log('id: ',id)
     try {
-      const response = await axios.get(`https://4be6-206-84-141-94.ngrok-free.app/application?user_id=${id}`);
+      const response = await axios.get(`https://59ec-119-73-100-124.ngrok-free.app/application?user_id=${id}`);
       setData(response.data);
     } catch (error) {
       console.error(error);
@@ -31,7 +31,7 @@ const MyJobs = () => {
     const id = await AsyncStorage.getItem('id');
     await AsyncStorage.setItem('itemid',itemId);
      try {
-      const response = await fetch(`https://4be6-206-84-141-94.ngrok-free.app/application?user_id=${id}&job_id=${itemId}`, {
+      const response = await fetch(`https://59ec-119-73-100-124.ngrok-free.app/application?user_id=${id}&job_id=${itemId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ const MyJobs = () => {
     setLoading(true);
     const id = await AsyncStorage.getItem('id');
     try {
-      const response = await axios.get(`https://4be6-206-84-141-94.ngrok-free.app/application?user_id=${id}`);
+      const response = await axios.get(`https://59ec-119-73-100-124.ngrok-free.app/application?user_id=${id}`);
       setData(response.data);
       setLoading(false);
       ToastAndroid.show('No Jobs Available', ToastAndroid.SHORT);
@@ -91,7 +91,7 @@ const MyJobs = () => {
       <View style={styles.submitButton}>
           <Button 
           title="Withdraw Application" 
-          color={'black'}
+          color={'darkred'}
           onPress={() => WithdrawApplication(item.id)}
             />
         </View>
@@ -144,6 +144,12 @@ const MyJobs = () => {
 };
 
 const styles = StyleSheet.create({
+  submitButton:{
+    alignSelf:'center',
+    margin:'10%',
+    marginBottom:'5%',
+    width:'60%'
+  },
   container: {
     flex: 1,
     paddingVertical: 16,
@@ -163,6 +169,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   itemContainer: {
+    alignItems:'center',
     backgroundColor: '#FFF',
     borderRadius: 8,
     padding: 16,
@@ -170,32 +177,32 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   name: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: '5%',
   },
   category: {
     fontSize: 16,
-    color: '#888',
-    marginBottom: 8,
+    marginBottom: '3%',
   },
   designation: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 8,
+    fontSize: 16,
+    marginBottom: '3%',
   },
   description: {
     fontSize: 16,
-    marginBottom: 8,
+    marginBottom: '3%',
   },
   location: {
-    fontSize: 14,
-    color: '#888',
-    marginBottom: 8,
+    fontSize: 16,
+    marginBottom: '3%',
   },
   salary: {
     fontSize: 16,
-    fontWeight: 'bold',
+    marginBottom:'3%'
+  },
+  status: {
+    fontSize: 16,
   },
   searchResultsContainer: {
     marginTop: 16,

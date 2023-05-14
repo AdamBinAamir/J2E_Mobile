@@ -14,7 +14,7 @@ const FindJobs = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://4be6-206-84-141-94.ngrok-free.app/jobs');
+      const response = await axios.get('https://59ec-119-73-100-124.ngrok-free.app/jobs');
       setData(response.data);
     } catch (error) {
       console.error(error);
@@ -41,7 +41,7 @@ const FindJobs = () => {
     const id = await AsyncStorage.getItem('id');
     if (!clickedItems.includes(itemId)) {
     try {
-      const response = await fetch('https://4be6-206-84-141-94.ngrok-free.app/application', {
+      const response = await fetch('https://59ec-119-73-100-124.ngrok-free.app/application', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -75,7 +75,9 @@ const FindJobs = () => {
       <Text style={styles.description}>Job Description: {item.description}</Text>
       <Text style={styles.location}>Location: {item.location}</Text>
       <Text style={styles.salary}>Expected Salary: {item.salary}</Text>
+      <View style={styles.submitButton}>
       <Button
+                      color={'darkgreen'}
       title={isItemClicked ? 'Applied!' : 'Apply'}
           style={[styles.button, isItemClicked && styles.buttonClicked]}
           onPress={() => handleItemClick(item.id)}
@@ -85,6 +87,7 @@ const FindJobs = () => {
             {isItemClicked ? 'Applied!' : 'Apply'}
           </Text>
         </Button>
+        </View>
     </View>
   );
 };
@@ -134,6 +137,12 @@ const FindJobs = () => {
 };
 
 const styles = StyleSheet.create({
+  submitButton:{
+    alignSelf:'center',
+    margin:'10%',
+    marginBottom:'5%',
+    width:'60%'
+  },
   container: {
     flex: 1,
     paddingVertical: 16,
@@ -153,6 +162,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   itemContainer: {
+    alignItems:'center',
     backgroundColor: '#FFF',
     borderRadius: 8,
     padding: 16,
@@ -160,32 +170,28 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   name: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: '5%',
   },
   category: {
     fontSize: 16,
-    color: '#888',
-    marginBottom: 8,
+    marginBottom: '3%',
   },
   designation: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 8,
+    fontSize: 16,
+    marginBottom: '3%',
   },
   description: {
     fontSize: 16,
-    marginBottom: 8,
+    marginBottom: '3%',
   },
   location: {
-    fontSize: 14,
-    color: '#888',
-    marginBottom: 8,
+    fontSize: 16,
+    marginBottom: '3%',
   },
   salary: {
     fontSize: 16,
-    fontWeight: 'bold',
   },
   searchResultsContainer: {
     marginTop: 16,

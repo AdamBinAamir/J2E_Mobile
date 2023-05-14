@@ -10,10 +10,19 @@ const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
 
+  const error = async () => {
+    if(email=='' || pass == '')
+   {
+    ToastAndroid.show('Credentials not Entered', ToastAndroid.SHORT);
+   }
+   else{
+    handleLogin();
+   }
+  };
   const handleLogin = async () => {
     setLoading(true);
     try {
-      const response = await fetch('https://4be6-206-84-141-94.ngrok-free.app/login', {
+      const response = await fetch('https://59ec-119-73-100-124.ngrok-free.app/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -25,10 +34,12 @@ const Login = ({navigation}) => {
       });
       const json = await response.json();
        await AsyncStorage.setItem('id',JSON.stringify(json.id));
+       setLoading(false);
       navigation.navigate('App_Dashboard');
       const id = await AsyncStorage.getItem('id');
       console.log(json);
      console.log(id);
+     ToastAndroid.show('SignIn Successful', ToastAndroid.SHORT);
     } catch (error) {
       console.log('invalid Credentials');
       ToastAndroid.show('Invalid Credentials', ToastAndroid.SHORT);
@@ -82,7 +93,7 @@ const Login = ({navigation}) => {
       </View>
       <TouchableOpacity
               style={style.Button}
-              onPress={handleLogin}
+              onPress={error}
               color={'#141413'}>
               <Text style={style.text}>Sign In</Text>
             </TouchableOpacity>

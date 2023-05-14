@@ -26,7 +26,7 @@ const OurJobs = ({navigation}) => {
     setLoading(true);
     const id = await AsyncStorage.getItem('id');
     try {
-      const response = await axios.get(`https://4be6-206-84-141-94.ngrok-free.app/jobs?org_id=${id}`);
+      const response = await axios.get(`https://59ec-119-73-100-124.ngrok-free.app/jobs?org_id=${id}`);
       setData(response.data);
       setLoading(false);
     } catch (error) {
@@ -53,7 +53,7 @@ const OurJobs = ({navigation}) => {
     const id = await AsyncStorage.getItem('id');
     await AsyncStorage.setItem('itemid',itemId);
      try {
-      const response = await fetch(`https://4be6-206-84-141-94.ngrok-free.app/jobs?id=${itemId}`, {
+      const response = await fetch(`https://59ec-119-73-100-124.ngrok-free.app/jobs?id=${itemId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -71,6 +71,7 @@ const OurJobs = ({navigation}) => {
 
       ToastAndroid.show('Invalid Credentials', ToastAndroid.SHORT);
       console.error(error);
+      setLoading(false);
     }
       console.log(`Deleted Job: ${itemId}`);
   };
@@ -82,8 +83,9 @@ const OurJobs = ({navigation}) => {
       const response = await axios.get(`https://4be6-206-84-141-94.ngrok-free.app/jobs?org_id=${id}`);
       setData(response.data);
       setLoading(false);
-      ToastAndroid.show('No Jobs Available', ToastAndroid.SHORT);
+
     } catch (error) {
+      setLoading(false);
       ToastAndroid.show('No Jobs', ToastAndroid.SHORT);
     }
   };
@@ -93,7 +95,7 @@ const OurJobs = ({navigation}) => {
     const id = await AsyncStorage.getItem('id');
     await AsyncStorage.setItem('itemid',itemId);
      try {
-      const response = await fetch(`https://4be6-206-84-141-94.ngrok-free.app/application/shorlist?job_id=${itemId}`, {
+      const response = await fetch(`https://59ec-119-73-100-124.ngrok-free.app/application/shorlist?job_id=${itemId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -102,6 +104,7 @@ const OurJobs = ({navigation}) => {
      console.log('Shorlisted By: ',id);
      console.log('ItemId',itemId);
      setLoading(false);
+     ToastAndroid.show('Shorlisted Candidates', ToastAndroid.LONG);
      navigation.navigate('Shorlisted');
     } catch (error) {
       console.log('invalid Credentials');
@@ -127,7 +130,8 @@ const OurJobs = ({navigation}) => {
         <View
         style={[
           {
-            marginTop: '3%',
+            marginTop: '5%',
+            marginBottom:'5%',
             alignSelf: 'center',
             flexDirection: 'row',
           },
@@ -137,13 +141,13 @@ const OurJobs = ({navigation}) => {
       title='Shorlisted'
           style={styles.button}
           onPress={() => Shorlisted(item.id)}
-          color={'black'}
+          color={'darkgreen'}
         />
 
         <View style={styles.submitButton}>
           <Button 
           title="Delete Job" 
-          color={'black'}
+          color={'darkred'}
           onPress={() => DeleteJob(item.id)}
             />
         </View>
@@ -225,6 +229,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   itemContainer: {
+    alignItems:'center',
     backgroundColor: '#FFF',
     borderRadius: 8,
     padding: 16,
@@ -232,32 +237,32 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   name: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: '5%',
   },
   category: {
     fontSize: 16,
-    color: '#888',
-    marginBottom: 8,
+    marginBottom: '3%',
   },
   designation: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 8,
+    fontSize: 16,
+    marginBottom: '3%',
   },
   description: {
     fontSize: 16,
-    marginBottom: 8,
+    marginBottom: '3%',
   },
   location: {
-    fontSize: 14,
-    color: '#888',
-    marginBottom: 8,
+    fontSize: 16,
+    marginBottom: '3%',
   },
   salary: {
     fontSize: 16,
-    fontWeight: 'bold',
+    marginBottom:'3%'
+  },
+  status: {
+    fontSize: 16,
   },
   searchResultsContainer: {
     marginTop: 16,

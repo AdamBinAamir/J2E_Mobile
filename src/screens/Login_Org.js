@@ -3,15 +3,27 @@ import LoadingIndicator from '../Components/LoadingIndicator';
 import React, { useState } from 'react';
 import { View, Image, Text, TextInput,Pressable, Button, ToastAndroid, AsyncStorage, StyleSheet, TouchableOpacity } from 'react-native';
 
+
 const Login_Org = ({navigation}) => {
   const [hidePass, setHidePass] = useState(true);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
 
+  const error = async () => {
+    if(email=='' || pass == '')
+   {
+    ToastAndroid.show('Credentials not Entered', ToastAndroid.SHORT);
+   }
+   else{
+    handleLogin();
+   }
+  };
   const handleLogin = async () => {
+    
+    setLoading(true);
     try {
-      const response = await fetch('https://4be6-206-84-141-94.ngrok-free.app/organizations/login', {
+      const response = await fetch('https://59ec-119-73-100-124.ngrok-free.app/organizations/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -25,13 +37,17 @@ const Login_Org = ({navigation}) => {
       await AsyncStorage.setItem('id',JSON.stringify(json.id));
       navigation.navigate('Org_Dashboard');
       const id = await AsyncStorage.getItem('id');
+      setLoading(false);
+
       console.log(json);
      console.log(id);
-     
+     ToastAndroid.show('Sign In Successful', ToastAndroid.SHORT);
     } catch (error) {
       console.log('invalid Credentials');
       ToastAndroid.show('Invalid Credentials', ToastAndroid.SHORT);
       console.error(error);
+      setLoading(false);
+
     }
   };
 
@@ -79,7 +95,7 @@ const Login_Org = ({navigation}) => {
     </View>
     <TouchableOpacity
             style={style.Button}
-            onPress={handleLogin}
+            onPress={error}
             color={'#141413'}>
             <Text style={style.text}>Sign In</Text>
           </TouchableOpacity>
@@ -137,21 +153,6 @@ const style = StyleSheet.create({
     alignSelf: 'center',
     color: '#01050d',
   },
-  // textTitle: {
-  //   fontFamily: 'Foundation',
-  //   fontSize: 40,
-  //   marginTop: '-4%',
-  //   marginBottom: '6%',
-  //   color: '#01050d',
-  // },
-  // textTitle1: {
-  //   fontFamily: 'Foundation',
-  //   fontSize: 25,
-  //   marginBottom: '4%',
-  //   paddingBottom: '3%',
-  //   color: '#01050d',
-  // },
-  
   textBody: {
     fontFamily: 'Foundation',
     fontSize: 15,
