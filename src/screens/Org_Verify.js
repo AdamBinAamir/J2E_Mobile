@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 const Org_Verify = ({navigation}) => {
   return (
-    <View>
+    <View style={style.container}>
       <Text style={style.textTitle}>Please Verify your Email!</Text>
       <Text style={style.text1}>Already Verified?</Text>
               <Pressable
@@ -17,18 +17,24 @@ const Org_Verify = ({navigation}) => {
 };
 
 const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    // marginVertical: 10,
+  },
   textTitle: {
     fontFamily: 'Foundation',
-    backgroundColor: '#010614',
-    borderRadius: 30,
-    fontSize: 18,
-    paddingLeft: '10%',
-    paddingRight: '10%',
-    paddingTop: '5%',
-    paddingBottom: '5%',
-    marginTop: 45,
-    alignSelf: 'center',
-    color: 'white',
+      backgroundColor: '#010614',
+      borderRadius: 10,
+      fontSize: 22,
+      paddingLeft: '10%',
+      paddingRight: '10%',
+      paddingTop: '5%',
+      paddingBottom: '5%',
+      alignSelf: 'center',
+      color: 'white',
+      marginBottom: '3%',
   },
   text: {
     alignSelf: 'center',
@@ -49,6 +55,7 @@ const style = StyleSheet.create({
     backgroundColor: 'darkblue',
   },
   text1: {
+    marginTop:'10%',
     alignSelf: 'center',
     fontFamily: 'Foundation',
     fontSize: 16,

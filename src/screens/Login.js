@@ -1,10 +1,8 @@
 
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import {setLoggedInAction} from '../redux/reduxSlice/user';
-import FetchData from '../network/fetchData';
 import LoadingIndicator from '../Components/LoadingIndicator';
 import React, { useState } from 'react';
-import { View, Image, Text, TextInput,Pressable, Button, ToastAndroid, AsyncStorage, StyleSheet } from 'react-native';
+import { View, Image, Text, TextInput,Pressable, Button, ToastAndroid, AsyncStorage, StyleSheet, TouchableOpacity } from 'react-native';
 
 const Login = ({navigation}) => {
   const [hidePass, setHidePass] = useState(true);
@@ -35,6 +33,7 @@ const Login = ({navigation}) => {
       console.log('invalid Credentials');
       ToastAndroid.show('Invalid Credentials', ToastAndroid.SHORT);
       console.error(error);
+      setLoading(false);
     }
     setLoading(false);
   };
@@ -81,12 +80,12 @@ const Login = ({navigation}) => {
               />
               </View>
       </View>
-      <Pressable
+      <TouchableOpacity
               style={style.Button}
               onPress={handleLogin}
               color={'#141413'}>
               <Text style={style.text}>Sign In</Text>
-            </Pressable>
+            </TouchableOpacity>
             <View
         style={{
           flexDirection: 'row',
@@ -95,7 +94,7 @@ const Login = ({navigation}) => {
         }}>
         <Text style={style.textBody}>Don't Have an account? </Text>
         <Text
-          style={[style.textBody, {color: 'blue'}]}
+          style={[style.textBody, {color: 'blue', paddingBottom:3, paddingTop:2, fontWeight:'bold'}]}
           onPress={() => {
             navigation.navigate('SignUp');
           }}>
@@ -119,17 +118,26 @@ const style = StyleSheet.create({
     },
     textTitle: {
       fontFamily: 'Foundation',
-      fontSize: 40,
-      marginTop: '2%',
-      marginBottom: '5%',
-      color: '#01050d',
+      backgroundColor: '#010614',
+      borderRadius: 10,
+      fontSize: 28,
+      paddingLeft: '10%',
+      paddingRight: '10%',
+      paddingTop: '5%',
+      paddingBottom: '5%',
+      marginTop: 45,
+      alignSelf: 'center',
+      color: 'white',
+      marginBottom: '3%',
     },
     textTitle1: {
       fontFamily: 'Foundation',
-      fontSize: 25,
-      marginTop: '2%',
-      marginBottom: '5%',
-      paddingBottom: '2%',
+      fontSize: 28,
+      marginVertical: 10,
+      marginBottom: '2%',
+       paddingBottom: '3%',
+      marginTop: 15,
+      alignSelf: 'center',
       color: '#01050d',
     },
     textBody: {
@@ -157,10 +165,11 @@ const style = StyleSheet.create({
       marginRight: 5,
     },
     Button: {
-      width: 200,
-      height: 45,
+      padding:"2%",
+      paddingLeft:"5%",
+      paddingRight:"5%",
       borderRadius: 30,
-      marginVertical: 10,
+      marginTop: 10,
       marginBottom: 20,
       borderWidth: 2,
       backgroundColor: '#010614',
@@ -169,8 +178,9 @@ const style = StyleSheet.create({
     text: {
       alignSelf: 'center',
       fontFamily: 'Foundation',
-      fontSize: 22,
-      marginTop: 10,
+      fontSize: 20,
+      padding:'2%',
+      marginBottom:1,
       color: 'white',
     },
     eyeSlash: {

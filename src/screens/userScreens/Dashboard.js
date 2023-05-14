@@ -7,10 +7,9 @@ const Dashboard = ({navigation}) => {
   const dispatch = useDispatch();
   const Separator = () => <View style={style.separator} />;
   return (
-    <ScrollView style={{backgroundColor: 'white'}}>
-      <View style={[style.container]}>
-        <Text style={style.textTitle}>"Hii there!!"</Text>
-      </View>
+      <View style={style.container}>
+        <Text style={style.textTitle}>Hii there!!</Text>
+        <Text style={style.textTitle1}>Welcome to J2E!</Text>
       <View style={style.styleLoginBtn}>
         <Button style={style.styleBtn}
           onPress={() => {
@@ -27,31 +26,49 @@ const Dashboard = ({navigation}) => {
           title="Organization"
           color={'#14130f'}
         />
-        
+        </View>
       </View>
-    </ScrollView>
+    
   );
 };
 
 const style = StyleSheet.create({
+  styleBtn:{
+    fontSize:25,
+    padding:'6%'
+  },
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
+  textTitle1:{
+    fontFamily: 'Foundation',
+    backgroundColor: '#010614',
+    borderRadius: 10,
+    fontSize: 28,
+    paddingLeft: '10%',
+    paddingRight: '10%',
+    paddingTop: '5%',
+    paddingBottom: '5%',
+    alignSelf: 'center',
+    color: 'white',
+    marginBottom: '3%',
   },
   textTitle: {
     fontFamily: 'Foundation',
     fontStyle: 'italic',
     fontSize: 28,
-    marginVertical: '5%',
-    marginBottom: '28%',
-    marginTop: '22%',
+    marginBottom: '8%',
     alignSelf: 'center',
     color: '#01050d',
   },
   separator: {
-    marginVertical: '3%',
+    marginVertical: '2%',
   },
   styleLoginBtn: {
-    width: '72%',
+    width: '65%',
     marginTop: '5%',
     marginLeft: '14%',
     marginRight: '14%',
