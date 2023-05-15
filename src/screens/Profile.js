@@ -15,6 +15,7 @@ import DocumentPicker from 'react-native-document-picker';
 
 const Profile = ({ navigation }) => {
     const [fileResponse, setfileResponse] = useState([]);
+  const [loading, setLoading] = useState(false);
    //FUNCTION OF GETTING FILE FROM PHONE
 
    const uploadFile = async () => {
@@ -31,6 +32,7 @@ const Profile = ({ navigation }) => {
 //API OF UPLOAD FILES TO SERVER
 
 const sendFile = async () => {
+  
   const data = new FormData();
   for (const res of fileResponse) {
     //Printing the log realted to the file
@@ -50,6 +52,7 @@ const sendFile = async () => {
   console.log(JSON.stringify(data));
 
   try {
+    setLoading(true);
     const id = await AsyncStorage.getItem('id');
     console.log('id',id);
     await fetch(`https://59ec-119-73-100-124.ngrok-free.app/upload?user_id=${id}`, {
@@ -59,9 +62,12 @@ const sendFile = async () => {
         'Content-Type': 'multipart/form-data',
       },
     });
+    setLoading(false);
     ToastAndroid.show('Upload Successfully', ToastAndroid.SHORT);
     console.log(data);
   } catch (error) {
+    ToastAndroid.show('Upload Unsuccessful', ToastAndroid.LONG);
+    setLoading(false);
     console.log(error);
   }
 };
@@ -95,6 +101,7 @@ const sendFile = async () => {
 
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
+            {loading && <LoadingIndicator />}
        <View
         style={[
           {
@@ -107,11 +114,11 @@ const sendFile = async () => {
             width: 70,
           },
         ]}>
-        <Pressable
+        {/* <Pressable
           color={'#141413'}>
           <Text style={style.text}>Edit</Text>
         </Pressable>
-        <Icon style={{marginTop: 8}} name="edit" size={20} color="black" />
+        <Icon style={{marginTop: 8}} name="edit" size={20} color="black" /> */}
       </View>
       
       {fileResponse.map((file, index) => (

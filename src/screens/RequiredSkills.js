@@ -9,6 +9,16 @@ const RequiredSkills = ({ navigation }) => {
   const [skills, setSkills] = useState([]);
   const [skill, setSkill] = useState('');
 
+  const error = async () => {
+    if(skills == '')
+   {
+    ToastAndroid.show('No data Entered', ToastAndroid.LONG);
+   }
+   else{
+    handleRequiredSkills();
+   }
+  };
+
   const handleRequiredSkills = async () => {
     setLoading(true);
     const id = await AsyncStorage.getItem('job_id');
@@ -80,7 +90,7 @@ const RequiredSkills = ({ navigation }) => {
         <Pressable style={style.Button12} onPress={addSkill} color={'#141413'}>
           <Text style={style.text}>Add Skill</Text>
         </Pressable>
-        <Pressable style={style.Button1} onPress={handleRequiredSkills} color={'#141413'}>
+        <Pressable style={style.Button1} onPress={error} color={'#141413'}>
           <Text style={style.text}>Next</Text>
         </Pressable>
     </ScrollView>
