@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, Text, StyleSheet, AsyncStorage } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, AsyncStorage, Pressable } from 'react-native';
 
-const OrganizationProfile = () => {
+const OrganizationProfile = ({navigation}) => {
   const [userProfile, setUserProfile] = useState(null);
 
   useEffect(() => {
@@ -32,6 +32,15 @@ const OrganizationProfile = () => {
   }
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
+      <View>
+        <Pressable
+        onPress={() => {
+          navigation.navigate('Dashboard');
+        }}
+          color={'#141413'}>
+          <Text style={style.text}>Sign Out</Text>
+        </Pressable>
+      </View>
        <View style={style.container}>
        <Text style={[style.name,{fontWeight:'bold',fontSize:24, backgroundColor:'black',padding:'2%',borderRadius:10}]}>Organization Profile</Text>
         <Text style={style.name}>Name: {userProfile.name}</Text>
@@ -45,6 +54,16 @@ const OrganizationProfile = () => {
 };
 
 const style = StyleSheet.create({
+  text: {
+    borderRadius:20,
+    alignSelf:'center',
+    margin:'10%',
+    width: '30%',
+    padding: '5%',
+    color: 'white',
+    backgroundColor:'darkred',
+    fontSize: 18,
+  },
   container: {
     borderRadius:30,
     marginVertical:'10%',
@@ -163,13 +182,6 @@ const style = StyleSheet.create({
     color: 'black',
     marginLeft: 13,
     fontSize: 15,
-  },
-  text: {
-    width: 50,
-    padding: 5,
-    color: 'white',
-    backgroundColor:'black',
-    fontSize: 18,
   },
 });
 

@@ -102,23 +102,14 @@ const sendFile = async () => {
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
             {loading && <LoadingIndicator />}
-       <View
-        style={[
-          {
-            flexDirection: 'row',
-            padding: '0%',
-            margin: '2%',
-            alignSelf:'flex-end',
-            borderWidth: 1,
-            borderRadius: 5,
-            width: 70,
-          },
-        ]}>
-        {/* <Pressable
+       <View>
+        <Pressable
+        onPress={() => {
+          navigation.navigate('Dashboard');
+        }}
           color={'#141413'}>
-          <Text style={style.text}>Edit</Text>
+          <Text style={style.text}>Sign Out</Text>
         </Pressable>
-        <Icon style={{marginTop: 8}} name="edit" size={20} color="black" /> */}
       </View>
       
       {fileResponse.map((file, index) => (
@@ -283,12 +274,15 @@ const style = StyleSheet.create({
     fontSize: 15,
   },
   text: {
-    width: 50,
-    padding: 5,
+    borderRadius:20,
+    alignSelf:'center',
+    margin:'10%',
+    width: '30%',
+    padding: '5%',
     color: 'white',
-    backgroundColor:'black',
+    backgroundColor:'darkred',
     fontSize: 18,
   },
 });
 
-export default Profile;
+export default Profile;
