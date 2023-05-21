@@ -1,5 +1,5 @@
 export const URL = {
-  BaseURL: 'https://59ec-119-73-100-124.ngrok-free.app/',
+  BaseURL: 'http://34.93.204.130:5020/',
   LOGIN: 'login',
   SIGNUP: 'signup',
   ORG_SIGNUP: 'organizations/signup',

@@ -26,7 +26,7 @@ const OurJobs = ({navigation}) => {
     setLoading(true);
     const id = await AsyncStorage.getItem('id');
     try {
-      const response = await axios.get(`https://59ec-119-73-100-124.ngrok-free.app/jobs?org_id=${id}`);
+      const response = await axios.get(`http://34.93.204.130:5020/jobs?org_id=${id}`);
       setData(response.data);
       setLoading(false);
     } catch (error) {
@@ -53,7 +53,7 @@ const OurJobs = ({navigation}) => {
     const id = await AsyncStorage.getItem('id');
     await AsyncStorage.setItem('itemid',itemId);
      try {
-      const response = await fetch(`https://59ec-119-73-100-124.ngrok-free.app/jobs?id=${itemId}`, {
+      const response = await fetch(`http://34.93.204.130:5020/jobs?id=${itemId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ const OurJobs = ({navigation}) => {
     setLoading(true);
     const id = await AsyncStorage.getItem('id');
     try {
-      const response = await axios.get(`https://4be6-206-84-141-94.ngrok-free.app/jobs?org_id=${id}`);
+      const response = await axios.get(`http://34.93.204.130:5020/jobs?org_id=${id}`);
       setData(response.data);
       setLoading(false);
 
@@ -95,7 +95,7 @@ const OurJobs = ({navigation}) => {
     const id = await AsyncStorage.getItem('id');
     await AsyncStorage.setItem('itemid',itemId);
      try {
-      const response = await fetch(`https://59ec-119-73-100-124.ngrok-free.app/application/shorlist?job_id=${itemId}`, {
+      const response = await fetch(`http://34.93.204.130:5020/application/shorlist?job_id=${itemId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -13,7 +13,7 @@ const Shorlisted = () => {
     const item = await AsyncStorage.getItem('itemid');
     console.log('Itemid: ', item);
     try {
-      const response = await axios.get(`https://59ec-119-73-100-124.ngrok-free.app/application?job_id=${item}`);
+      const response = await axios.get(`http://34.93.204.130:5020/application?job_id=${item}`);
       setData(response.data);
     } catch (error) {
       console.error(error);

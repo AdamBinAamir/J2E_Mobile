@@ -31,7 +31,7 @@ const SignUp = ({ navigation }) => {
     
     try {
       setLoading(true);
-      const response = await fetch('https://59ec-119-73-100-124.ngrok-free.app/signup', {
+      const response = await fetch('http://34.93.204.130:5020/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

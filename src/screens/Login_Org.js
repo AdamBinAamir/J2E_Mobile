@@ -23,7 +23,7 @@ const Login_Org = ({navigation}) => {
     
     setLoading(true);
     try {
-      const response = await fetch('https://59ec-119-73-100-124.ngrok-free.app/organizations/login', {
+      const response = await fetch('http://34.93.204.130:5020/organizations/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -20,7 +20,7 @@ const MyJobs = () => {
     const id = await AsyncStorage.getItem('id');
     console.log('id: ',id)
     try {
-      const response = await axios.get(`https://59ec-119-73-100-124.ngrok-free.app/application?user_id=${id}`);
+      const response = await axios.get(`http://34.93.204.130:5020/application?user_id=${id}`);
       setData(response.data);
     } catch (error) {
       console.error(error);
@@ -31,7 +31,7 @@ const MyJobs = () => {
     const id = await AsyncStorage.getItem('id');
     await AsyncStorage.setItem('itemid',itemId);
      try {
-      const response = await fetch(`https://59ec-119-73-100-124.ngrok-free.app/application?user_id=${id}&job_id=${itemId}`, {
+      const response = await fetch(`http://34.93.204.130:5020/application?user_id=${id}&job_id=${itemId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ const MyJobs = () => {
     setLoading(true);
     const id = await AsyncStorage.getItem('id');
     try {
-      const response = await axios.get(`https://59ec-119-73-100-124.ngrok-free.app/application?user_id=${id}`);
+      const response = await axios.get(`http://34.93.204.130:5020/application?user_id=${id}`);
       setData(response.data);
       setLoading(false);
       ToastAndroid.show('No Jobs Available', ToastAndroid.SHORT);

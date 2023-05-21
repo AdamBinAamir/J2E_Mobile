@@ -55,7 +55,7 @@ const sendFile = async () => {
     setLoading(true);
     const id = await AsyncStorage.getItem('id');
     console.log('id',id);
-    await fetch(`https://59ec-119-73-100-124.ngrok-free.app/upload?user_id=${id}`, {
+    await fetch(`http://34.93.204.130:5020/upload?user_id=${id}`, {
       method: 'post',
       body: data,
       headers: {
@@ -78,7 +78,7 @@ const sendFile = async () => {
   const fetchUserProfile = async () => {
     const id = await AsyncStorage.getItem('id');
     try {
-      const response = await fetch(`https://59ec-119-73-100-124.ngrok-free.app/profile?user_id=${id}`);
+      const response = await fetch(`http://34.93.204.130:5020/profile?user_id=${id}`);
       const data = await response.json();
       setUserProfile(data);
     } catch (error) {
@@ -285,4 +285,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default Profile;
+export default Profile;

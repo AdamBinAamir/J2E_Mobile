@@ -14,7 +14,7 @@ const OrganizationProfile = ({navigation}) => {
   const fetchUserProfile = async () => {
     const id = await AsyncStorage.getItem('id');
     try {
-      const response = await fetch(`https://59ec-119-73-100-124.ngrok-free.app/organizations/profile?id=${id}`);
+      const response = await fetch(`http://34.93.204.130:5020/organizations/profile?id=${id}`);
       const data = await response.json();
       return data;
     } catch (error) {

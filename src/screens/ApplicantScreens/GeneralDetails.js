@@ -35,7 +35,7 @@ import LoadingIndicator from '../../Components/LoadingIndicator';
     setLoading(true);
     const id = await AsyncStorage.getItem('id');
     try {
-      const response = await fetch('https://59ec-119-73-100-124.ngrok-free.app/profile', {
+      const response = await fetch('http://34.93.204.130:5020/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

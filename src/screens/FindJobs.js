@@ -14,7 +14,7 @@ const FindJobs = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://59ec-119-73-100-124.ngrok-free.app/jobs');
+      const response = await axios.get('http://34.93.204.130:5020/jobs');
       setData(response.data);
     } catch (error) {
       console.error(error);
@@ -41,7 +41,7 @@ const FindJobs = () => {
     const id = await AsyncStorage.getItem('id');
     if (!clickedItems.includes(itemId)) {
     try {
-      const response = await fetch('https://59ec-119-73-100-124.ngrok-free.app/application', {
+      const response = await fetch('http://34.93.204.130:5020/application', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

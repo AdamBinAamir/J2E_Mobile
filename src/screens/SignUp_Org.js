@@ -40,7 +40,7 @@ const SignUp_Org = ({navigation}) => {
   const handleSignUpOrg = async () => {
     setLoading(true);
     try {
-      const response = await fetch('https://59ec-119-73-100-124.ngrok-free.app/organizations/signup', {
+      const response = await fetch('http://34.93.204.130:5020/organizations/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
